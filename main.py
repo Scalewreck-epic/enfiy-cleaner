@@ -145,11 +145,17 @@ def remove_file_content(file, file_list):
 
         fsl_val.set(f"Files Scanned: {str(sf)}")
         frl_val.set(f"Files Removed: {str(fr)}")
-        total_file_size_TB_val.set(str(total_file_size_TB) + " TB saved")
-        total_file_size_KB_val.set(str(total_file_size_KB) + " KB saved")
-        total_file_size_MB_val.set(str(total_file_size_MB) + " MB saved")
-        total_file_size_GB_val.set(str(total_file_size_GB) + " GB saved")
-        total_file_size_Bytes_val.set(str(total_file_size_Bytes) + " Bytes saved")
+
+        if total_file_size_TB > 0:
+            total_file_size_val.set(f"{str(total_file_size_TB)} TB saved")
+        if total_file_size_GB > 0 and total_file_size_TB < 1:
+            total_file_size_val.set(f"{str(total_file_size_GB)} GB saved")
+        if total_file_size_MB > 0 and total_file_size_GB < 1:
+            total_file_size_val.set(f"{str(total_file_size_MB)} MB saved")
+        if total_file_size_KB > 0 and total_file_size_MB < 1:
+            total_file_size_val.set(f"{str(total_file_size_KB)} KB saved")
+        if total_file_size_Bytes > 0 and total_file_size_KB < 1:
+            total_file_size_val.set(f"{str(total_file_size_Bytes)} Bytes saved")
 
 
 def scan_pc():
@@ -189,47 +195,12 @@ def scan_pc():
                     show_file = Label(window, text=f'Scanning {os.path.basename(useless_file)} File.')
                     show_file.place(x=0, y=0)
 
-                    added_y_value: int = 25
-                    place_value: int = 1
-
-                    fsl.place(x=0, y=(added_y_value * place_value))
-                    place_value += 1
-
-                    frl.place(x=0, y=(added_y_value * place_value))
-                    place_value += 1
-
-                    if total_file_size_TB > 0:
-                        tfsTB.place(x=0, y=(added_y_value * place_value))
-                        place_value += 1
-                    else:
-                        tfsTB.place_forget()
-
-                    if total_file_size_GB > 0:
-                        tfsGB.place(x=0, y=(added_y_value * place_value))
-                        place_value += 1
-                    else:
-                        tfsGB.place_forget()
-
-                    if total_file_size_MB > 0 and total_file_size_GB < 1:
-                        tfsMB.place(x=0, y=(added_y_value * place_value))
-                        place_value += 1
-                    else:
-                        tfsMB.place_forget()
-
-                    if total_file_size_KB > 0 and total_file_size_MB < 1:
-                        tfsKB.place(x=0, y=(added_y_value * place_value))
-                        place_value += 1
-                    else:
-                        tfsKB.place_forget()
-
-                    if total_file_size_Bytes > 0 and total_file_size_KB < 1:
-                        tfsBytes.place(x=0, y=(added_y_value * place_value))
-                        place_value += 1
-                    else:
-                        tfsBytes.place_forget()
+                    fsl.place(x=0, y=25)
+                    frl.place(x=0, y=50)
+                    tfs_v.place(x=0, y=75)
 
                     remove_file_content(useless_file, file_list)
-                    show_file.destroy()
+                    show_file.place_forget()
         else:
             scanning = False
 
@@ -241,10 +212,7 @@ def scan_pc():
         wait(3, window)
         fsl.place_forget()
         frl.place_forget()
-        tfsKB.place_forget()
-        tfsMB.place_forget()
-        tfsGB.place_forget()
-        tfsBytes.place_forget()
+        tfs_v.place_forget()
         finished_label.place_forget()
 
         scanning = False
@@ -291,34 +259,21 @@ window.title("Enfiy Cleaner")
 window.iconbitmap(f"favicon.ico")
 
 start_scan = Button(window, text="Start Scan", command=scan_pc)
-auto_button = Button(window, text="Auto Scan", command=auto_scan)
+auto_btn = Button(window, text="Auto Scan", command=auto_scan)
 
 fsl_val = StringVar()
 frl_val = StringVar()
-total_file_size_TB_val = StringVar()
-total_file_size_KB_val = StringVar()
-total_file_size_MB_val = StringVar()
-total_file_size_GB_val = StringVar()
-total_file_size_Bytes_val = StringVar()
-total_storage_space_used = StringVar()
+total_file_size_val = StringVar()
 
 fsl = Label(window, textvariable=fsl_val)
 frl = Label(window, textvariable=frl_val)
-tfsKB = Label(window, textvariable=total_file_size_KB_val)
-tfsMB = Label(window, textvariable=total_file_size_MB_val)
-tfsGB = Label(window, textvariable=total_file_size_GB_val)
-tfsTB = Label(window, textvariable=total_file_size_TB_val)
-tfsBytes = Label(window, textvariable=total_file_size_Bytes_val)
+tfs_v = Label(window, textvariable=total_file_size_val)
 
 fsl.place_forget()
 frl.place_forget()
-tfsKB.place_forget()
-tfsMB.place_forget()
-tfsGB.place_forget()
-tfsTB.place_forget()
-tfsBytes.place_forget()
+tfs_v.place_forget()
 
 start_scan.place(x=55, y=220)
-auto_button.place(x=130, y=220)
+auto_btn.place(x=130, y=220)
 
 window.mainloop()
