@@ -38,7 +38,7 @@ total_file_size_MB: int = 0
 total_file_size_GB: int = 0
 total_file_size_TB: int = 0
 total_file_size_Bytes: int = 0
-wait_time = 0.01
+wait_time = 0.02
 scanning: bool = False
 auto_scanning: bool = False
 break_auto_scan: bool = True
@@ -192,9 +192,9 @@ def scan_pc():
                 except OSError:
                     pass
                 else:
-                    show_file = Label(window, text=f'Scanning {os.path.basename(useless_file)} File.')
-                    show_file.place(x=0, y=0)
+                    show_file_val.set(f"Scanning {os.path.basename(useless_file)} File.")
 
+                    show_file.place(x=0, y=0)
                     fsl.place(x=0, y=25)
                     frl.place(x=0, y=50)
                     tfs_v.place(x=0, y=75)
@@ -261,14 +261,17 @@ window.iconbitmap(f"favicon.ico")
 start_scan = Button(window, text="Start Scan", command=scan_pc)
 auto_btn = Button(window, text="Auto Scan", command=auto_scan)
 
+show_file_val = StringVar()
 fsl_val = StringVar()
 frl_val = StringVar()
 total_file_size_val = StringVar()
 
+show_file = Label(window, textvariable=show_file_val)
 fsl = Label(window, textvariable=fsl_val)
 frl = Label(window, textvariable=frl_val)
 tfs_v = Label(window, textvariable=total_file_size_val)
 
+show_file.place_forget()
 fsl.place_forget()
 frl.place_forget()
 tfs_v.place_forget()
