@@ -187,7 +187,7 @@ def scan_pc():
                 try:
                     file_list = os.listdir(useless_file)
                 except FileNotFoundError:
-                    print("File Not Found " + useless_file)
+                    print(f"File Not Found {useless_file}")
                     pass
                 except OSError:
                     pass
@@ -218,7 +218,7 @@ def scan_pc():
         scanning = False
     else:
         new_window = Tk()
-        new_window.iconbitmap(f"favicon.ico")
+        new_window.iconbitmap("favicon.ico")
         new_window.title("Error")
         new_window.resizable(False, False)
         Label(new_window, text="Scan on cooldown.").pack()
@@ -234,7 +234,7 @@ def auto_scan():
         warn_window = Toplevel()
         warn_window.title("NOTE")
         warn_window.resizable(False, False)
-        warn_window.iconbitmap(f"favicon.ico")
+        warn_window.iconbitmap("favicon.ico")
         Label(warn_window, text="Auto scan started").pack()
 
         while True:
@@ -249,14 +249,14 @@ def auto_scan():
 
         warn_window.title("NOTE")
         warn_window.resizable(False, False)
-        warn_window.iconbitmap(f"favicon.ico")
+        warn_window.iconbitmap("favicon.ico")
         Label(warn_window, text="Auto scan ended.").pack()
 
 
 window = Tk()
 get_geometry(window, 250, 250)
 window.title("Enfiy Cleaner")
-window.iconbitmap(f"favicon.ico")
+window.iconbitmap("favicon.ico")
 
 start_scan = Button(window, text="Start Scan", command=scan_pc)
 auto_btn = Button(window, text="Auto Scan", command=auto_scan)
