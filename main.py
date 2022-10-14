@@ -1,18 +1,17 @@
 import enum
-import os
+import platform
 import shutil
 import time
-import platform
+import os
 from tkinter import *
 from tkinter.ttk import *
 
-system_name = platform.system()
-system_version = platform.version()
+favicon = r"favicon.ico"
+
 login = os.getlogin()
 
 user_file = f"C:\\Users\\{login}"
 desktop_file = "C:\\Windows"
-library_file = "Users\\Library"
 
 useless_files_Windows = [
     f"{user_file}\\AppData\\Local\\Temp",
@@ -21,13 +20,6 @@ useless_files_Windows = [
     f"{desktop_file}\\prefetch",
     f"{desktop_file}\\SoftwareDistribution\\Download",
     f"{desktop_file}\\Logs",
-]
-
-useless_files_Mac = [
-    f"{library_file}\\Developer\\Xcode\\DerivedData",
-    f"{library_file}\\Logs\\CoreSimulator",
-    f"{library_file}\\Developer\\Xcode\\iOS DeviceSupport",
-    f"{library_file}\\Caches\\com.apple.dt.XCode",
 ]
 
 sf: int = 0
@@ -175,12 +167,11 @@ def scan_pc():
 
         useless_files = None
 
-        if system_name == "Windows":
-            useless_files = useless_files_Windows
-        elif system_name == "Mac":
-            useless_files = useless_files_Mac
-        else:
-            print(f'{system_name}v{system_version} is not compatible for Enfiy Cleaner.')
+        if platform.system() == "Windows":
+            useless_files = windowsfiles.useless_files_Windows
+
+        if platform.system() == "Mac":
+            useless_files = macfiles.useless_files_Mac
 
         if useless_files:
             for useless_file in useless_files:
@@ -218,7 +209,7 @@ def scan_pc():
         scanning = False
     else:
         new_window = Tk()
-        new_window.iconbitmap("favicon.ico")
+        new_window.iconbitmap(favicon)
         new_window.title("Error")
         new_window.resizable(False, False)
         Label(new_window, text="Scan on cooldown.").pack()
@@ -234,7 +225,7 @@ def auto_scan():
         warn_window = Toplevel()
         warn_window.title("NOTE")
         warn_window.resizable(False, False)
-        warn_window.iconbitmap("favicon.ico")
+        warn_window.iconbitmap(favicon)
         Label(warn_window, text="Auto scan started").pack()
 
         while True:
@@ -249,14 +240,14 @@ def auto_scan():
 
         warn_window.title("NOTE")
         warn_window.resizable(False, False)
-        warn_window.iconbitmap("favicon.ico")
+        warn_window.iconbitmap(favicon)
         Label(warn_window, text="Auto scan ended.").pack()
 
 
 window = Tk()
 get_geometry(window, 250, 250)
 window.title("Enfiy Cleaner")
-window.iconbitmap("favicon.ico")
+window.iconbitmap(favicon)
 
 start_scan = Button(window, text="Start Scan", command=scan_pc)
 auto_btn = Button(window, text="Auto Scan", command=auto_scan)
