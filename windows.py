@@ -1,5 +1,4 @@
 import enum
-import platform
 import shutil
 import time
 import os
@@ -165,16 +164,8 @@ def scan_pc():
 
         window.update()
 
-        useless_files = None
-
-        if platform.system() == "Windows":
-            useless_files = windowsfiles.useless_files_Windows
-
-        if platform.system() == "Mac":
-            useless_files = macfiles.useless_files_Mac
-
-        if useless_files:
-            for useless_file in useless_files:
+        if useless_files_Windows:
+            for useless_file in useless_files_Windows:
                 try:
                     file_list = os.listdir(useless_file)
                 except FileNotFoundError:
